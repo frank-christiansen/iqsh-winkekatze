@@ -15,14 +15,14 @@
 #define zeitEnde 10000
 
 #ifndef APSSID
-#define APSSID "Escape Cat"
+#define APSSID "Manekineko"
 #define APPSK "artikel26"
 #endif
 
 const char* ssid = APSSID;
 const char* password = APPSK;
 
-int milis = millis();
+int armUntenSeit;
 int win = 0;
 
 const char* morsecode = ".- .-. - .. -.- . .-.. ..--- -....";
@@ -31,7 +31,6 @@ int iMorsecode = 0;
 bool iMorsecodeStart = true;
 int nextMorsecodeChange = millis();
 
-
 unsigned long ulReqcount;
 
 Servo arm;
@@ -39,9 +38,8 @@ WiFiServer server(80);
 
 
 
-
 void setup() {
- 
+  
   pinMode(augenGPIO, OUTPUT);
   arm.attach(armGPIO);
   arm.write(armHoch);
@@ -53,166 +51,79 @@ void setup() {
   WiFi.softAP(ssid, password);
   server.begin();
   
-  
 }
+
+
 
 void loop() {
 
-  //Morsecode Augen
 
-  if (win==0){
-
-    if (millis() > nextMorsecodeChange){
-      
-      //DEBUG OUTPUT
-      Serial.print(millis());
-      Serial.print(" ");
-      Serial.print(iMorsecode);
-      Serial.print(" ");
-      Serial.print(morsecode[iMorsecode]);
-      
-      // LED AN ODER AUS
-      if (iMorsecodeStart && (morsecode[iMorsecode] != ' ')){
-        digitalWrite(augenGPIO, HIGH);
-        Serial.println(" on");
-      }else{
-        digitalWrite(augenGPIO, LOW);
-        Serial.println(" off");
+  //MORSECODE AUGEN
+  if (millis() > nextMorsecodeChange){
+    
+    //DEBUG OUTPUT
+    Serial.print(millis());
+    Serial.print(" ");
+    Serial.print(iMorsecode);
+    Serial.print(" ");
+    Serial.print(morsecode[iMorsecode]);
+    
+    // LED AN ODER AUS
+    if (iMorsecodeStart && (morsecode[iMorsecode] != ' ')){
+      digitalWrite(augenGPIO, HIGH);
+      Serial.println(" on");
+    }else{
+      digitalWrite(augenGPIO, LOW);
+      Serial.println(" off");
+    }
+    
+    //ZEIT FÜR NÄCHSTES EREIGNISS ERMITTELN
+    //Falls Start vom aktuellen Zeichen
+    if (iMorsecodeStart) {
+      //kurz, lang oder neuer Buchstabe
+      switch (morsecode[iMorsecode]) {
+        case '.':
+          nextMorsecodeChange = millis() + zeitKurz;
+          break;
+        case '-':
+          nextMorsecodeChange = millis() + zeitLang;
+          break;
+        default:
+          nextMorsecodeChange = millis() + zeitNeuerBuchstabe;
+          break;
       }
-      
-      //ZEIT FÜR NÄCHSTES EREIGNISS ERMITTELN
-      //Falls Start vom aktuellen Zeichen
-      if (iMorsecodeStart) {
-        //kurz, lang oder neuer Buchstabe
-        switch (morsecode[iMorsecode]) {
-          case '.':
-            nextMorsecodeChange = millis() + zeitKurz;
-            break;
-          case '-':
-            nextMorsecodeChange = millis() + zeitLang;
-            break;
-          default:
-            nextMorsecodeChange = millis() + zeitNeuerBuchstabe;
-            break;
-        }
+    } else {
+      //Pause oder Ende
+      if (iMorsecode >= (morsecodeLen - 1)){
+        //Ende
+        nextMorsecodeChange = millis() + zeitEnde;
+        iMorsecode = 0;
       } else {
-        //Pause oder Ende
-        if (iMorsecode >= (morsecodeLen - 1)){
-          //Ende
-          nextMorsecodeChange = millis() + zeitEnde;
-          iMorsecode = 0;
-        } else {
-          //Pause
-          nextMorsecodeChange = millis() + zeitPause;
-          iMorsecode++;
-        }
-        
+        //Pause
+        nextMorsecodeChange = millis() + zeitPause;
+        iMorsecode++;
       }
       
-      // START, ENDE, START, ...
-      iMorsecodeStart = !iMorsecodeStart;
+    }
+    
+    // START, ENDE, START, ...
+    iMorsecodeStart = !iMorsecodeStart;
+    
+  }
       
-    }
+    
+  // WINKEN WENN BUTTON GEDRUECKT WURDE
+  if (win == 1) {
+    arm.write(armRunter);
+    armUntenSeit = millis();
+    win = 2;
+  } else if (win ==2 && (millis() > armUntenSeit + 2000)) {
+      arm.write(armHoch);
+      win = 0;
+  }
 
-    
-    /*
-    if (millis() < (milis + 1500)){
-      digitalWrite(augenGPIO, HIGH);
-      Serial.write("an1");
-    }
-    else if ( millis() < (milis + 2000)){
-      digitalWrite(augenGPIO, LOW);
-       Serial.write("aus1");
-    }
-     else if (millis() < (milis + 2500)){
-      digitalWrite(augenGPIO, HIGH);
-       Serial.write("an1");
-    }
-     else if (millis() < (milis + 3000)){
-      digitalWrite(augenGPIO, LOW);
-      Serial.write("aus1");
-    }
-     else if (millis() < (milis + 4500)){
-      digitalWrite(augenGPIO, HIGH);
-    }
-     else if (millis() < (milis + 5000)){
-      digitalWrite(augenGPIO, LOW);
-    }
-    else if (millis() < (milis + 5500)){
-      digitalWrite(augenGPIO, HIGH);
-    }
-     else if (millis() < (milis + 7500)){
-      digitalWrite(augenGPIO, LOW);
-    }
-     else if (millis() < (milis + 8000)){
-      digitalWrite(augenGPIO, HIGH);
-    }
-     else if (millis() < (milis + 8500)){
-      digitalWrite(augenGPIO, LOW);
-    }
-     else if (millis() < (milis + 10000)){
-      digitalWrite(augenGPIO, HIGH);
-    }
-    else if ( millis() < (milis + 12000)){
-      digitalWrite(augenGPIO, LOW);
-    }
-     else if (millis() < (milis + 13500)){
-      digitalWrite(augenGPIO, HIGH);
-    }
-     else if (millis() < (milis + 15500)){
-      digitalWrite(augenGPIO, LOW);
-    }
-     else if (millis() > (milis + 15500)){
-      milis = millis();
-    }
-    */
-
-      
-   }else{
-    
-    // activated on button click
-    
-        if (win == 1){
-        milis = millis();
-        win= 2;
-        }
-
-       //Winkroutine 
-        
-        else if (win == 2) {
-          digitalWrite(augenGPIO, HIGH);
-          if (millis() < (milis + 1000)){
-             arm.write(armHoch);
-          }
-          else if (millis() < (milis + 6000)){
-             arm.write(armRunter);
-          }
-          else if (millis() < (milis + 7000)){
-             arm.write(armHoch);
-          }
-          else if (millis() < (milis + 8000)){
-             arm.write(armRunter);
-          }
-          else if (millis() < (milis + 9000)){
-             arm.write(armHoch);
-          }
-          else if (millis() < (milis + 10000)){
-             arm.write(armRunter);
-          }
-          else if (millis() < (milis + 11000)){
-             arm.write(armHoch);
-          }
-          else if (millis() > (milis + 11000)){
-             milis = millis();
-             win = 0;
-          }
-          
-        }
-       
-    
-   }
    
- // Check if a client has connected
+  // Check if a client has connected
   WiFiClient client = server.available();
   if (!client) 
   {
@@ -282,13 +193,12 @@ void loop() {
     }
   }
   
-  
   String sResponse,sHeader;
   
- // 404 not found
- 
-  if(sPath!="/")
-  {
+  if(sPath!="/") {
+
+    // 404 not found
+    
     sResponse="<html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL was not found on this server.</p></body></html>";
     
     sHeader  = "HTTP/1.1 404 Not found\r\n";
@@ -298,24 +208,25 @@ void loop() {
     sHeader += "Content-Type: text/html\r\n";
     sHeader += "Connection: close\r\n";
     sHeader += "\r\n";
-  }
+    
+  } else {
 
 
-// HTML page
-  
-  else
-  {
+
+    // HTML page
+    
     ulReqcount++;
-    sResponse  = "<html><head><title>Demo f&uumlr ESP8266 Steuerung</title></head><body>";
-    sResponse += "<font color=\"#000000\"><body bgcolor=\"#FFFFFF\">";
+    sResponse  = "<html><head><title>Manekineko</title></head><body bgcolor=\"#000000\" text=\"#FFFFFF\" link=\"#FFFFFF\" vlink=\"#FFFFFF\" alink=\"#FFFFFF\">";
     sResponse += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=yes\">";
-    sResponse += "<h1>Herzlichen Gl&uuml;ckwunsch!</h1><br>";
-    sResponse += "<FONT SIZE=+1>";
-    sResponse += "<p><a href=\"?pin=FUNCTION1ON\"><button>Gewonnen</button></a></p>";
+    sResponse += "<font face=\"Verdana\" size=\"5\">";
+    sResponse += "<h1 align=center><u>Rette die Welt:</u> Bitte Manekineko um Vergebung und hoffe auf ein Zeichen!</h1><br><br>";
+    sResponse += "<div align=center><a href=\"?pin=FUNCTION1ON\"><button>Um Vergebung bitten...</button></a></div>";
+    sResponse += "</font>";
+    sResponse += "</body></html>";
+
     
   
-//react to button
-   
+    //react to button
     if (sCmd.length()>0)
     {
    
@@ -324,8 +235,7 @@ void loop() {
       // switch GPIO
       if(sCmd.indexOf("FUNCTION1ON")>=0)
       {
-        win = 1;
-         
+        win = 1;     
       }    
      
     }
@@ -337,6 +247,7 @@ void loop() {
     sHeader += "Content-Type: text/html\r\n";
     sHeader += "Connection: close\r\n";
     sHeader += "\r\n";
+    
   }
   
   // Send the response to the client
@@ -346,4 +257,6 @@ void loop() {
   // and stop the client
   client.stop();
   Serial.println("Client disonnected");
+
+  
 }
