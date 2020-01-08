@@ -8,15 +8,29 @@
 #define armHoch 50
 #define armRunter 180
 
+#define zeitKurz 500
+#define zeitLang 1500
+#define zeitPause 750
+#define zeitNeuerBuchstabe 1500 //In Summe mit beiden Pausen 3000
+#define zeitEnde 10000
+
 #ifndef APSSID
 #define APSSID "Escape Cat"
-#define APPSK "cat"
+#define APPSK "artikel26"
 #endif
 
 const char* ssid = APSSID;
 const char* password = APPSK;
+
 int milis = millis();
 int win = 0;
+
+const char* morsecode = ".- .-. - .. -.- . .-.. ..--- -....";
+const int morsecodeLen = 34;
+int iMorsecode = 0;
+bool iMorsecodeStart = true;
+int nextMorsecodeChange = millis();
+
 
 unsigned long ulReqcount;
 
@@ -33,6 +47,7 @@ void setup() {
   arm.write(armHoch);
   Serial.begin(9600);
   delay(1);
+  Serial.println("DEBUG OUTPUT:");
 
   WiFi.mode(WIFI_AP);
   WiFi.softAP(ssid, password);
@@ -45,61 +60,114 @@ void loop() {
 
   //Morsecode Augen
 
-   if (win==0){
-      if (millis() < (milis + 1500)){
-        digitalWrite(augenGPIO, HIGH);
-        Serial.write("an1");
-      }
-      else if ( millis() < (milis + 2000)){
-        digitalWrite(augenGPIO, LOW);
-         Serial.write("aus1");
-      }
-       else if (millis() < (milis + 2500)){
-        digitalWrite(augenGPIO, HIGH);
-         Serial.write("an1");
-      }
-       else if (millis() < (milis + 3000)){
-        digitalWrite(augenGPIO, LOW);
-        Serial.write("aus1");
-      }
-       else if (millis() < (milis + 4500)){
-        digitalWrite(augenGPIO, HIGH);
-      }
-       else if (millis() < (milis + 5000)){
-        digitalWrite(augenGPIO, LOW);
-      }
+  if (win==0){
 
-      else if (millis() < (milis + 5500)){
+    if (millis() > nextMorsecodeChange){
+      
+      //DEBUG OUTPUT
+      Serial.print(millis());
+      Serial.print(" ");
+      Serial.print(iMorsecode);
+      Serial.print(" ");
+      Serial.print(morsecode[iMorsecode]);
+      
+      // LED AN ODER AUS
+      if (iMorsecodeStart && (morsecode[iMorsecode] != ' ')){
         digitalWrite(augenGPIO, HIGH);
-      }
-
-       else if (millis() < (milis + 7500)){
+        Serial.println(" on");
+      }else{
         digitalWrite(augenGPIO, LOW);
+        Serial.println(" off");
       }
-       else if (millis() < (milis + 8000)){
-        digitalWrite(augenGPIO, HIGH);
-      }
-       else if (millis() < (milis + 8500)){
-        digitalWrite(augenGPIO, LOW);
-      }
-       else if (millis() < (milis + 10000)){
-        digitalWrite(augenGPIO, HIGH);
-      }
-
-      else if ( millis() < (milis + 12000)){
-        digitalWrite(augenGPIO, LOW);
-      }
-       else if (millis() < (milis + 13500)){
-        digitalWrite(augenGPIO, HIGH);
-      }
-       else if (millis() < (milis + 15500)){
-        digitalWrite(augenGPIO, LOW);
+      
+      //ZEIT FÜR NÄCHSTES EREIGNISS ERMITTELN
+      //Falls Start vom aktuellen Zeichen
+      if (iMorsecodeStart) {
+        //kurz, lang oder neuer Buchstabe
+        switch (morsecode[iMorsecode]) {
+          case '.':
+            nextMorsecodeChange = millis() + zeitKurz;
+            break;
+          case '-':
+            nextMorsecodeChange = millis() + zeitLang;
+            break;
+          default:
+            nextMorsecodeChange = millis() + zeitNeuerBuchstabe;
+            break;
+        }
+      } else {
+        //Pause oder Ende
+        if (iMorsecode >= (morsecodeLen - 1)){
+          //Ende
+          nextMorsecodeChange = millis() + zeitEnde;
+          iMorsecode = 0;
+        } else {
+          //Pause
+          nextMorsecodeChange = millis() + zeitPause;
+          iMorsecode++;
+        }
         
       }
       
-       else if (millis() > (milis + 15500)){
-        milis = millis();
-      }
+      // START, ENDE, START, ...
+      iMorsecodeStart = !iMorsecodeStart;
+      
+    }
+
+    
+    /*
+    if (millis() < (milis + 1500)){
+      digitalWrite(augenGPIO, HIGH);
+      Serial.write("an1");
+    }
+    else if ( millis() < (milis + 2000)){
+      digitalWrite(augenGPIO, LOW);
+       Serial.write("aus1");
+    }
+     else if (millis() < (milis + 2500)){
+      digitalWrite(augenGPIO, HIGH);
+       Serial.write("an1");
+    }
+     else if (millis() < (milis + 3000)){
+      digitalWrite(augenGPIO, LOW);
+      Serial.write("aus1");
+    }
+     else if (millis() < (milis + 4500)){
+      digitalWrite(augenGPIO, HIGH);
+    }
+     else if (millis() < (milis + 5000)){
+      digitalWrite(augenGPIO, LOW);
+    }
+    else if (millis() < (milis + 5500)){
+      digitalWrite(augenGPIO, HIGH);
+    }
+     else if (millis() < (milis + 7500)){
+      digitalWrite(augenGPIO, LOW);
+    }
+     else if (millis() < (milis + 8000)){
+      digitalWrite(augenGPIO, HIGH);
+    }
+     else if (millis() < (milis + 8500)){
+      digitalWrite(augenGPIO, LOW);
+    }
+     else if (millis() < (milis + 10000)){
+      digitalWrite(augenGPIO, HIGH);
+    }
+    else if ( millis() < (milis + 12000)){
+      digitalWrite(augenGPIO, LOW);
+    }
+     else if (millis() < (milis + 13500)){
+      digitalWrite(augenGPIO, HIGH);
+    }
+     else if (millis() < (milis + 15500)){
+      digitalWrite(augenGPIO, LOW);
+    }
+     else if (millis() > (milis + 15500)){
+      milis = millis();
+    }
+    */
+
+      
    }else{
     
     // activated on button click
