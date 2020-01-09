@@ -21,6 +21,9 @@
 
 const char* ssid = APSSID;
 const char* password = APPSK;
+IPAddress local_IP(192,168,4,173);
+IPAddress gateway(0,0,0,0);
+IPAddress subnet(255,255,255,0);
 
 int armUntenSeit;
 int win = 0;
@@ -45,10 +48,15 @@ void setup() {
   arm.write(armHoch);
   Serial.begin(9600);
   delay(1);
-  Serial.println("DEBUG OUTPUT:");
+  Serial.println("https://github.com/frank-christiansen/iqsh-winkekatze");
 
   WiFi.mode(WIFI_AP);
-  WiFi.softAP(ssid, password);
+  Serial.print("Setting soft-AP configuration ... ");
+  Serial.println(WiFi.softAPConfig(local_IP, gateway, subnet) ? "Ready" : "Failed!");
+  Serial.print("Setting soft-AP ... ");
+  Serial.println(WiFi.softAP(ssid, password) ? "Ready" : "Failed!");
+  Serial.print("Soft-AP IP address = ");
+  Serial.println(WiFi.softAPIP());
   server.begin();
   
 }
