@@ -17,6 +17,15 @@ Eine Winkekatze bildet mithilfe eines ESP8266, eines Servos, ein paar LEDs... de
 | <img src="Bilder/01_Servo.jpg" alt="Winkekatze_Servo" height="400"> | <img src="Bilder/02_GPIOs.jpg" alt="Winkekatze_GPIOs" height="400"> | <img src="Bilder/03_Arm.jpg" alt="Winkekatze_Arm" height="400"> |
 | <img src="Bilder/04_Test1.jpg" alt="Winkekatze_Test1" height="400"> | <img src="Bilder/05_Augen.jpg" alt="Winkekatze_Augen" height="400"> | <img src="Bilder/06_LEDs.jpg" alt="Winkekatze_LEDs" height="400"> |
 
+Komponenten:
+* [Amazon: Winkekatze ](https://www.amazon.de/dp/B00UFUTZD8/ref=cm_sw_em_r_mt_dp_U_FhphEb7BMZKRY) - Winkekatze
+* [Amazon: D1 Mini NodeMcu mit ESP8266-12E](https://www.amazon.de/dp/B0754N794H/ref=cm_sw_em_r_mt_dp_U_3nphEbZBZCEY8) - Arduino kompatibeles DevBoard mit WLAN
+* [Amazon: Longruner SG90 Micro Servo Motor ](https://www.amazon.de/dp/B07236KYVC/ref=cm_sw_em_r_mt_dp_U_DqphEb9V77JRW) - Mini Servo für den Arm
+* [Amazon: Longruner SG90 Micro Servo Motor ](https://www.amazon.de/dp/B07236KYVC/ref=cm_sw_em_r_mt_dp_U_DqphEb9V77JRW) - Mini Servo für den Arm
+* [ebay: LED 5mm rot superhell](https://ebay.us/LGWqMc) - LEDs, 1,9-2,1V, 20mA, 3000mcd
+* 47 Ohm Wiederstand
+* Micro-USB Kabel
+
 ## Lizenz
 
 [![License: CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-sa/4.0/)
