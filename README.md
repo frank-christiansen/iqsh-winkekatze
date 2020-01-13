@@ -18,7 +18,4 @@ Eine Winkekatze bildet mithilfe eines ESP8266, eines Servos, ein paar LEDs... de
 - https://de.wikipedia.org/
 
 ## Authoren
-Frank Christiansen
-Thorben Demand
-Marco Runge
-Jan-Matthis Hoffmann
+Frank Christiansen, Thorben Demand, Marco Runge und Jan-Matthis Hoffmann
