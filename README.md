@@ -17,6 +17,12 @@ Eine Winkekatze bildet mithilfe eines ESP8266, eines Servos, ein paar LEDs... de
 | <img src="Bilder/01_Servo.jpg" alt="Winkekatze_Servo" height="400"> | <img src="Bilder/02_GPIOs.jpg" alt="Winkekatze_GPIOs" height="400"> | <img src="Bilder/03_Arm.jpg" alt="Winkekatze_Arm" height="400"> |
 | <img src="Bilder/04_Test1.jpg" alt="Winkekatze_Test1" height="400"> | <img src="Bilder/05_Augen.jpg" alt="Winkekatze_Augen" height="400"> | <img src="Bilder/06_LEDs.jpg" alt="Winkekatze_LEDs" height="400"> |
 
+## Lizenz
+
+[![License: CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-sa/4.0/)
+
+Dieses Werk ist lizenziert unter einer [Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-sa/4.0/).
+
 ## Quellen und Inspiration
 
 - https://klartext-reden.net/
