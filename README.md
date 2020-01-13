@@ -27,4 +27,4 @@ Eine Winkekatze bildet mithilfe eines ESP8266, eines Servos, ein paar LEDs... de
 
 Frank Christiansen, Thorben Demand, Marco Runge und Jan-Matthis Hoffmann
 
-Dieses Spiel ist im Rahmen des Seminars Berufliche Informatik des Institut für Qualitätsentwicklung an Schulen Schleswig-Holstein unter Studienleiter Dr. Peer Stechert entstanden.
+(Dieses Spiel ist im Rahmen des Seminars Berufliche Informatik des Institut für Qualitätsentwicklung an Schulen Schleswig-Holstein unter Studienleiter Dr. Peer Stechert entstanden.)
