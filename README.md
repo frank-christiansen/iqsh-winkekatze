@@ -1,4 +1,4 @@
-# [IQ.SH](http://www.iqsh.de)-Winkekatze
+# [IQ.SH](http://www.iqsh.de)-Winkekatze [![Releases](https://img.shields.io/github/v/release/frank-christiansen/iqsh-winkekatze.svg)](https://github.com/frank-christiansen/iqsh-winkekatze/releases/latest)
 
 Eine Winkekatze bildet mithilfe eines ESP8266, eines Servos, ein paar LEDs... den Mittlepunkt einer Geschichte, um ein Klassenzimmer in einen Escape-Room zu verwandeln.
 
