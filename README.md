@@ -2,9 +2,11 @@
 
 Eine Winkekatze bildet mithilfe eines ESP8266, eines Servos, ein paar LEDs... den Mittlepunkt einer Geschichte, um ein Klassenzimmer in einen Escape-Room zu verwandeln.
 
+## Arbeitsblätter
+[<img src="Source_Arbeitsblaetter/hintergrund.png" alt="Arbeitsblätter" height="400">](https://github.com/frank-christiansen/iqsh-winkekatze/blob/master/Arbeitsblaetter.pdf)
+
 ## Hardware
 <img src="Bilder/07_fertig.jpg" alt="Winkekatze_fertig" height="400">
-
 
 ## Herstellung
 | | | |
