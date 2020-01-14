@@ -34,6 +34,8 @@ Dieses Werk ist lizenziert unter einer [Creative Commons Namensnennung - Weiterg
 ## Quellen und Inspiration
 
 - https://klartext-reden.net/
+- https://www.carluccio.de/
+- https://www.lieblos.de/
 - https://36c3.bleeptrack.de/
 - https://de.wikipedia.org/
 
