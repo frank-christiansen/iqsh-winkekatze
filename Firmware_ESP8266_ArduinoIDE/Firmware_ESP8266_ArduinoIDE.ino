@@ -11,8 +11,8 @@
 #define zeitKurz 500
 #define zeitLang 1500
 #define zeitPause 750
-#define zeitNeuerBuchstabe 1500 //In Summe mit beiden Pausen 3000
-#define zeitEnde 10000
+#define zeitNeuerBuchstabe 4500 //In Summe mit beiden Pausen 6000
+#define zeitEnde 20000
 
 #ifndef APSSID
 #define APSSID "Manekineko"
